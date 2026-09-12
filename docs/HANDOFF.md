@@ -2,7 +2,7 @@
 
 ## 次セッションの目的
 
-[plan.md](./plan.md) に従い、Phase 7 の配布準備とドキュメントを実装する。ユーザーが明示的に変更しない限り、同ファイルを仕様の正として扱うこと。
+[plan.md](./plan.md) の Phase 1–7 を実装済み。Phase 7 の PR／CI 結果を確認し、ユーザーから依頼された次の作業へ進む。npm publish は別途明示的な依頼があるまで行わない。ユーザーが明示的に変更しない限り、同ファイルを仕様の正として扱うこと。
 
 ## 現在の状態
 
@@ -11,6 +11,7 @@
 - Phase 4 は `feat/phase-3` から作成した branch `feat/phase-4` で実装。
 - Phase 5 は `feat/phase-4` から作成した branch `feat/phase-5` で実装。
 - Phase 6 は `feat/phase-5` から作成した branch `feat/phase-6` で実装。
+- Phase 7 は `feat/phase-6` から作成した branch `feat/phase-7` で実装。PR の base は `feat/phase-6`。
 - Phase 1 の package／開発ツール、typed error、logger、path normalization、CLI help／option validation を実装済み。
 - 検証結果と実装判断は [phase-1.md](./phase-1.md) に記録済み。unit test 60 件、format、type-aware lint、typecheck、build、ビルド済み CLI の起動確認が成功。
 - `node dist/main.mjs --help`／`--version` と通常の graph 生成が動作する。
@@ -20,7 +21,10 @@
 - Phase 4 の graph 差分統合、rename relation、双方向 BFS、exclude、無変更ノード上限と省略 summary を実装済み。内部 API と検証結果は [phase-4.md](./phase-4.md) を参照。143 tests、format、type-aware lint、typecheck、build、CLI help／version が成功。
 - Phase 5 の Mermaid renderer、Macchiato theme、directory grouping、label escape、凡例と省略 summary を実装済み。内部 API と検証結果は [phase-5.md](./phase-5.md) を参照。164 tests、format、type-aware lint、typecheck、build、CLI help／version が成功。
 - Phase 6 の annotation 検証、CLI 統合、atomic output、verbose timing、ビルド済み CLI の E2E を実装済み。193 tests が成功。判断、検証結果と完了条件の照合は [phase-6.md](./phase-6.md) を参照。
-- CI、annotation JSON Schema の配布、配布ドキュメント、pack smoke test、benchmark は Phase 7 で行う。
+- Phase 7 の日英 README、MIT LICENSE、annotation JSON Schema、SHA 固定の 3 OS CI、pack smoke test、benchmark を実装済み。
+- ローカルで 207 tests、format、type-aware lint、typecheck、build、tarball の 7 ファイル確認と導入済み CLI の help／version／解析が成功。
+- benchmark は 10,000 source files／20 changed files の通常 workload で中央値 1.542 秒、最大 peak RSS 515.64 MiB。詳細は [benchmark.md](./benchmark.md)。単一の 10,000 file 循環は Compiler API の stack 上限に達する制約があり、再現 mode を残した。
+- Phase 7 の判断と Section 14 の照合結果は [phase-7.md](./phase-7.md)。CI の最終結果は PR 作成後に記録する。
 - npm publish は行っていない。
 
 ## 参照すべき成果物
@@ -49,7 +53,7 @@
 ## 実装開始時の進め方
 
 1. `plan.md` を最初から最後まで読む。
-2. Phase 7 から進め、関連 test を同時に追加する。
+2. Phase 7 までの実装記録と残りの CI 状態を確認し、依頼範囲の関連 test を同時に追加する。
 3. 現在の Node.js 24／pnpm 環境を確認してから scaffold する。
 4. library API の詳細は記憶に頼らず、現行の公式 documentation で確認する。
 5. Git snapshot 実装では branch、working tree、index を変更しないことを integration test で継続的に確認する。

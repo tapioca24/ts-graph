@@ -41,6 +41,7 @@ export async function generateGraph(
       comparison.target,
       options.tsconfig.length ? options.tsconfig : undefined,
       warn,
+      (stage, milliseconds) => logger.debug(`${stage}: ${milliseconds.toFixed(1)} ms`),
     );
     timing("TypeScript analysis");
     const merged = mergeGraphs(graphs.base, graphs.target, comparison.changes);

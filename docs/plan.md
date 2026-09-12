@@ -406,13 +406,13 @@ src/
 
 ### Phase 7: 配布準備とドキュメント
 
-- [ ] `README.md` に英語の導入、全 CLI 例、色と edge semantics、制約を書く。
-- [ ] `README.ja.md` に同内容の日本語版を書く。
-- [ ] `delta-typescript-graph-action`、`typescript-graph`、`difit` から着想を得たことを明記する。
-- [ ] MIT `LICENSE` と annotation JSON Schema を追加する。
-- [ ] `pnpm pack` の内容を検証し、tarball を一時 project へ導入する smoke test を作る。
-- [ ] GitHub Actions で品質チェックと 3 OS integration test を構成する。
-- [ ] 10,000 file 相当の benchmark generator／runner と計測手順を追加する。
+- [x] `README.md` に英語の導入、全 CLI 例、色と edge semantics、制約を書く。
+- [x] `README.ja.md` に同内容の日本語版を書く。
+- [x] `delta-typescript-graph-action`、`typescript-graph`、`difit` から着想を得たことを明記する。
+- [x] MIT `LICENSE` と annotation JSON Schema を追加する。
+- [x] `pnpm pack` の内容を検証し、tarball を一時 project へ導入する smoke test を作る。
+- [x] GitHub Actions で品質チェックと 3 OS integration test を構成する。
+- [x] 10,000 file 相当の benchmark generator／runner と計測手順を追加する。
 
 ## 12. テスト戦略
 
@@ -480,19 +480,19 @@ Linux では format、lint、typecheck、unit／fixture test、build、pack smok
 
 ## 14. 完了条件
 
-- [ ] 合意済みの全 CLI option が help と README に記載されている。
-- [ ] 全 diff mode で working tree、index、branch を変更せず Mermaid を生成できる。
-- [ ] added／deleted／modified／renamed node と added／deleted dependency を 1 枚で判別できる。
-- [ ] Macchiato の指定色、凡例、directory grouping、LR layout が反映される。
-- [ ] `depth`、`max-nodes`、`exclude` が決定的に動作する。
-- [ ] edge annotation が inline／file の両方で安全に表示される。
-- [ ] project references、paths、主要な TypeScript／JavaScript module syntax を解析できる。
-- [ ] no-change、warning、入力エラー、実行時エラーが規定の stdout／stderr／終了コードになる。
-- [ ] format、lint、typecheck、全 test、build が成功する。
+- [x] 合意済みの全 CLI option が help と README に記載されている。
+- [x] 全 diff mode で working tree、index、branch を変更せず Mermaid を生成できる。
+- [x] added／deleted／modified／renamed node と added／deleted dependency を 1 枚で判別できる。
+- [x] Macchiato の指定色、凡例、directory grouping、LR layout が反映される。
+- [x] `depth`、`max-nodes`、`exclude` が決定的に動作する。
+- [x] edge annotation が inline／file の両方で安全に表示される。
+- [x] project references、paths、主要な TypeScript／JavaScript module syntax を解析できる。
+- [x] no-change、warning、入力エラー、実行時エラーが規定の stdout／stderr／終了コードになる。
+- [x] format、lint、typecheck、全 test、build が成功する。
 - [ ] macOS／Linux／Windows の CI が成功する。
-- [ ] `pnpm pack` の成果物から `ts-graph --help` と代表的な解析が成功する。
-- [ ] README、README.ja.md、LICENSE、JSON Schema が package に含まれる。
-- [ ] npm publish を実行していない。
+- [x] `pnpm pack` の成果物から `ts-graph --help` と代表的な解析が成功する。
+- [x] README、README.ja.md、LICENSE、JSON Schema が package に含まれる。
+- [x] npm publish を実行していない。
 
 ## 15. 主なリスクと対策
 

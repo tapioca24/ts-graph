@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ts-graph edge annotations",
+  "description": "Annotation files are arrays. Inline --edge-label also accepts a single item. Paths are repository-relative; normalization, traversal rejection, duplicate edges and displayed-edge existence are checked by the CLI.",
+  "type": "array",
+  "items": { "$ref": "#/$defs/annotation" },
+  "$defs": {
+    "annotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to", "label"],
+      "properties": {
+        "from": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Importing file, relative to repository root."
+        },
+        "to": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Imported file, relative to repository root."
+        },
+        "label": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Plain text. Newlines are supported; HTML and Mermaid are escaped."
+        }
+      }
+    },
+    "nonEmptyString": { "type": "string", "minLength": 1, "pattern": "\\S" }
+  }
+}

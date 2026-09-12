@@ -126,6 +126,13 @@ it("supports cwd, subdirectories, render options and deterministic Markdown file
   expect(file.code, file.stderr).toBe(0);
   expect(file.stdout).toBe("");
   expect(file.stderr).toMatch(/Generation total: [\d.]+ ms/);
+  for (const stage of [
+    "Blob reads and snapshot hosts",
+    "Base tsconfig",
+    "Base Program construction",
+    "Target Dependency resolution",
+  ])
+    expect(file.stderr).toContain(`${stage}: `);
   expect(await readFile(join(root, "graph.md"), "utf8")).toBe(result.stdout);
   expect((await readdir(root)).some((name) => name.endsWith(".tmp"))).toBe(false);
 });
