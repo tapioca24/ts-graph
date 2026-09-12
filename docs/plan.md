@@ -380,12 +380,12 @@ src/
 
 ### Phase 4: Diff graph の統合と選択
 
-- [ ] base／target graph の node・edge status を計算する。
-- [ ] rename relation と旧／新 node を統合する。
-- [ ] 双方向 BFS と `depth` を実装する。
-- [ ] exclude glob と探索打ち切りを実装する。
-- [ ] changed node を保持する `max-nodes` と省略 summary を実装する。
-- [ ] 複数 tsconfig 間の node／edge union をテストする。
+- [x] base／target graph の node・edge status を計算する。
+- [x] rename relation と旧／新 node を統合する。
+- [x] 双方向 BFS と `depth` を実装する。
+- [x] exclude glob と探索打ち切りを実装する。
+- [x] changed node を保持する `max-nodes` と省略 summary を実装する。
+- [x] 複数 tsconfig 間の node／edge union をテストする。
 
 ### Phase 5: Mermaid renderer
 
