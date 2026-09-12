@@ -18,6 +18,17 @@ export function readProjects(host: SnapshotHost, configs: readonly string[]) {
       {},
       {
         ...host,
+        // getParsedCommandLineOfConfigFile may recover from malformed JSON
+        // without exposing its syntax diagnostics in ParsedCommandLine.errors.
+        // Validate every config read, including inherited configs, explicitly.
+        readFile: (path) => {
+          const text = host.readFile(path);
+          if (text !== undefined) {
+            const diagnostic = ts.parseConfigFileTextToJson(path, text).error;
+            if (diagnostic) errors.push(diagnostic);
+          }
+          return text;
+        },
         onUnRecoverableConfigFileDiagnostic: (diagnostic) => errors.push(diagnostic),
       },
     );
