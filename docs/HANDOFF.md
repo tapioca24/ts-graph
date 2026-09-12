@@ -2,7 +2,7 @@
 
 ## 次セッションの目的
 
-[plan.md](./plan.md) の Phase 1–7 を実装済み。Phase 7 の PR／CI 結果を確認し、ユーザーから依頼された次の作業へ進む。npm publish は別途明示的な依頼があるまで行わない。ユーザーが明示的に変更しない限り、同ファイルを仕様の正として扱うこと。
+[plan.md](./plan.md) の Phase 1–7 を実装済み。Phase 7 の PR は [#7](https://github.com/tapioca24/ts-graph/pull/7)（base: `feat/phase-6`）。3 OS の CI が成功した。ユーザーから依頼された次の作業へ進む。npm publish は別途明示的な依頼があるまで行わない。ユーザーが明示的に変更しない限り、同ファイルを仕様の正として扱うこと。
 
 ## 現在の状態
 
@@ -24,7 +24,7 @@
 - Phase 7 の日英 README、MIT LICENSE、annotation JSON Schema、SHA 固定の 3 OS CI、pack smoke test、benchmark を実装済み。
 - ローカルで 207 tests、format、type-aware lint、typecheck、build、tarball の 7 ファイル確認と導入済み CLI の help／version／解析が成功。
 - benchmark は 10,000 source files／20 changed files の通常 workload で中央値 1.542 秒、最大 peak RSS 515.64 MiB。詳細は [benchmark.md](./benchmark.md)。単一の 10,000 file 循環は Compiler API の stack 上限に達する制約があり、再現 mode を残した。
-- Phase 7 の判断と Section 14 の照合結果は [phase-7.md](./phase-7.md)。CI の最終結果は PR 作成後に記録する。
+- Phase 7 の判断と Section 14 の照合結果は [phase-7.md](./phase-7.md)。[CI run 34699013477](https://github.com/tapioca24/ts-graph/actions/runs/34699013477) で Linux の品質／pack と 3 OS integration の全 4 jobs が成功。
 - npm publish は行っていない。
 
 ## 参照すべき成果物
@@ -53,7 +53,7 @@
 ## 実装開始時の進め方
 
 1. `plan.md` を最初から最後まで読む。
-2. Phase 7 までの実装記録と残りの CI 状態を確認し、依頼範囲の関連 test を同時に追加する。
+2. Phase 7 までの実装記録とPR の最新 CI 状態を確認し、依頼範囲の関連 test を同時に追加する。
 3. 現在の Node.js 24／pnpm 環境を確認してから scaffold する。
 4. library API の詳細は記憶に頼らず、現行の公式 documentation で確認する。
 5. Git snapshot 実装では branch、working tree、index を変更しないことを integration test で継続的に確認する。

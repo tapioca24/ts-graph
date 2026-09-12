@@ -7,7 +7,9 @@
 - [x] SHA 固定の Actions で品質チェックと 3 OS integration test を構成する。
 - [x] 10,000 source files／20 changed files の generator と性能計測を実装する。
 - [x] 全品質チェック、pack、benchmark を実行し、完了条件と照合する。
-- [ ] 日本語コミットを作成し、`feat/phase-6` 向け PR と CI 結果を確認する。
+- [x] 日本語コミットを作成し、`feat/phase-6` 向け PR と CI 結果を確認する。
+
+PR: [#7](https://github.com/tapioca24/ts-graph/pull/7)（`feat/phase-7` → `feat/phase-6`）。実装 commit `5fb6391`、Windows テスト移植性修正 `ee13369`。
 
 ## 検証結果
 
@@ -41,18 +43,18 @@ Node.js v24.14.1、pnpm 10.33.0、Git 2.55.0、macOS arm64 で検証。
 
 ## plan.md Section 14 との照合
 
-| 完了条件                                         | 根拠／状態                                              |
-| ------------------------------------------------ | ------------------------------------------------------- |
-| 全 CLI option の help／README 掲載               | distribution test で日英 README と CLI 定義を照合、成功 |
-| 全 diff mode と working tree／index／branch 不変 | CLI E2E と Git integration 成功                         |
-| 全 node status、rename、追加／削除依存           | CLI E2E、graph unit test、Mermaid parse 成功            |
-| Macchiato、凡例、grouping、LR                    | Mermaid unit／snapshot／parser test 成功                |
-| depth／max-nodes／exclude の決定性               | graph tests と benchmark の出力完全一致                 |
-| inline／file annotation の安全性                 | annotations、CLI E2E、JSON Schema tests 成功            |
-| references／paths／TS・JS syntax                 | TypeScript fixture tests 成功                           |
-| stdout／stderr／終了コード                       | CLI E2E と run tests 成功                               |
-| format／lint／typecheck／全 test／build          | `pnpm check` 成功、CLI E2E 内で build 成功              |
-| macOS／Linux／Windows CI                         | PR 作成後に確認する                                     |
-| tarball から help と解析                         | `pnpm test:pack` 成功                                   |
-| README／日本語版／LICENSE／Schema の同梱         | tarball 内 7 ファイルの allowlist 照合で確認済み        |
-| npm publish 未実行                               | 実行していない                                          |
+| 完了条件                                         | 根拠／状態                                                                                              |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| 全 CLI option の help／README 掲載               | distribution test で日英 README と CLI 定義を照合、成功                                                 |
+| 全 diff mode と working tree／index／branch 不変 | CLI E2E と Git integration 成功                                                                         |
+| 全 node status、rename、追加／削除依存           | CLI E2E、graph unit test、Mermaid parse 成功                                                            |
+| Macchiato、凡例、grouping、LR                    | Mermaid unit／snapshot／parser test 成功                                                                |
+| depth／max-nodes／exclude の決定性               | graph tests と benchmark の出力完全一致                                                                 |
+| inline／file annotation の安全性                 | annotations、CLI E2E、JSON Schema tests 成功                                                            |
+| references／paths／TS・JS syntax                 | TypeScript fixture tests 成功                                                                           |
+| stdout／stderr／終了コード                       | CLI E2E と run tests 成功                                                                               |
+| format／lint／typecheck／全 test／build          | `pnpm check` 成功、CLI E2E 内で build 成功                                                              |
+| macOS／Linux／Windows CI                         | [CI run 34699013477](https://github.com/tapioca24/ts-graph/actions/runs/34699013477) の全 4 jobs が成功 |
+| tarball から help と解析                         | `pnpm test:pack` 成功                                                                                   |
+| README／日本語版／LICENSE／Schema の同梱         | tarball 内 7 ファイルの allowlist 照合で確認済み                                                        |
+| npm publish 未実行                               | 実行していない                                                                                          |

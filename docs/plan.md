@@ -489,7 +489,7 @@ Linux では format、lint、typecheck、unit／fixture test、build、pack smok
 - [x] project references、paths、主要な TypeScript／JavaScript module syntax を解析できる。
 - [x] no-change、warning、入力エラー、実行時エラーが規定の stdout／stderr／終了コードになる。
 - [x] format、lint、typecheck、全 test、build が成功する。
-- [ ] macOS／Linux／Windows の CI が成功する。
+- [x] macOS／Linux／Windows の CI が成功する。
 - [x] `pnpm pack` の成果物から `ts-graph --help` と代表的な解析が成功する。
 - [x] README、README.ja.md、LICENSE、JSON Schema が package に含まれる。
 - [x] npm publish を実行していない。
