@@ -355,10 +355,10 @@ src/
 
 ### Phase 1: Project scaffold と契約の固定
 
-- [ ] `package.json`、`pnpm-lock.yaml`、tsconfig、tsdown、Vitest、Oxlint、Oxfmt を構成する。
-- [ ] `@tapioca24/ts-graph@0.1.0`、ESM、Node.js 24、`bin.ts-graph`、公開対象ファイルを設定する。
-- [ ] typed error、logger、path normalization の基盤を作る。
-- [ ] CLI help と option validation の unit test を先に固定する。
+- [x] `package.json`、`pnpm-lock.yaml`、tsconfig、tsdown、Vitest、Oxlint、Oxfmt を構成する。
+- [x] `@tapioca24/ts-graph@0.1.0`、ESM、Node.js 24、`bin.ts-graph`、公開対象ファイルを設定する。
+- [x] typed error、logger、path normalization の基盤を作る。
+- [x] CLI help と option validation の unit test を先に固定する。
 
 ### Phase 2: Git diff specification と snapshot
 
