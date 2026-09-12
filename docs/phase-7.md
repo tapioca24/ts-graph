@@ -32,6 +32,9 @@ Node.js v24.14.1、pnpm 10.33.0、Git 2.55.0、macOS arm64 で検証。
   native 版は直接起動する。shell は使わない。
 - CI は Linux で品質と pack、3 OS で Git／TypeScript／CLI integration を実行する。
   既存の POSIX 特有の file name／symlink テストの Windows skip は維持する。
+- 初回 Windows CI は絶対パスの separator だけの比較差異 2 件と、8 回 CLI を起動する注釈テストの 5 秒 timeout で失敗。
+  絶対パスの比較を `path.normalize` で揃え、注釈 E2E だけを既存の複数起動 E2E と同じ 30 秒にした。
+  path の内容、graph、終了コードなどの assertion とテスト件数は維持し、skip は追加していない。
 - benchmark の 10,000 file 単一循環では Compiler API の call stack 上限に到達した。
   通常 workload は 100 file ごとの循環 module とし、失敗した topology も `chain` mode として再現可能に残した。
   README に制約を明記し、stack size 変更や `noResolve` による回避は行っていない。
