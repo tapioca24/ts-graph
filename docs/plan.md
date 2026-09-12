@@ -362,12 +362,12 @@ src/
 
 ### Phase 2: Git diff specification と snapshot
 
-- [ ] `target`／`compare-with`／special target を domain model へ変換する。
-- [ ] revision 検証、parent、merge base、repository root の解決を実装する。
-- [ ] NUL 区切りの change status parser と rename model を実装する。
-- [ ] Git tree、index、working tree の `SnapshotReader` を実装する。
-- [ ] `git cat-file --batch` の lifecycle、error、cleanup を実装する。
-- [ ] 一時 Git repository を使う integration test で全 diff mode を確認する。
+- [x] `target`／`compare-with`／special target を domain model へ変換する。
+- [x] revision 検証、parent、merge base、repository root の解決を実装する。
+- [x] NUL 区切りの change status parser と rename model を実装する。
+- [x] Git tree、index、working tree の `SnapshotReader` を実装する。
+- [x] `git cat-file --batch` の lifecycle、error、cleanup を実装する。
+- [x] 一時 Git repository を使う integration test で全 diff mode を確認する。
 
 ### Phase 3: TypeScript dependency analyzer
 
