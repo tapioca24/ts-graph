@@ -10,6 +10,8 @@ import { analyzeComparison, analyzeSnapshot } from "../src/typescript/dependenci
 import { collectImports } from "../src/typescript/imports.js";
 import { RuntimeError } from "../src/errors.js";
 import { createSnapshotHost } from "../src/typescript/compiler-host.js";
+import { mergeGraphs } from "../src/graph/merge.js";
+import { selectGraph } from "../src/graph/select.js";
 
 it("keeps compiler tracing off stdout and refuses compiler writes", async () => {
   const { root } = await fixture();
@@ -188,6 +190,49 @@ it("recurses through references and unions resolutions from overlapping projects
     { from: "shared.ts", to: "one.ts" },
     { from: "shared.ts", to: "two.ts" },
   ]);
+});
+
+it("merges and selects the union of explicit overlapping configs across snapshots", async () => {
+  const { root } = await fixture();
+  const files = {
+    "one/tsconfig.json": config({ paths: { alias: ["../one.ts"] } }, { files: ["../shared.ts"] }),
+    "two/tsconfig.json": config({ paths: { alias: ["../two.ts"] } }, { files: ["../shared.ts"] }),
+    "shared.ts": "import 'alias';",
+    "one.ts": "export {};",
+    "two.ts": "export {};",
+    "three.ts": "export {};",
+  };
+  const after = {
+    ...files,
+    "two/tsconfig.json": config({ paths: { alias: ["../three.ts"] } }, { files: ["../shared.ts"] }),
+  };
+  const configs = ["two/tsconfig.json", "one/tsconfig.json", "two/tsconfig.json"];
+  const comparison = await analyzeComparison(root, snapshot(files), snapshot(after), configs);
+  const changes = {
+    files: [{ path: "two/tsconfig.json", status: "modified" as const }],
+    renames: [],
+  };
+  const merged = mergeGraphs(comparison.base, comparison.target, changes);
+  expect(merged.nodes).toEqual([
+    { path: "one.ts", status: "unchanged" },
+    { path: "shared.ts", status: "unchanged" },
+    { path: "three.ts", status: "added" },
+    { path: "two.ts", status: "deleted" },
+  ]);
+  expect(merged.edges).toEqual([
+    { from: "shared.ts", to: "one.ts", status: "unchanged" },
+    { from: "shared.ts", to: "three.ts", status: "added" },
+    { from: "shared.ts", to: "two.ts", status: "deleted" },
+  ]);
+  expect(paths(selectGraph(merged))).toEqual(["shared.ts", "three.ts", "two.ts"]);
+  expect(selectGraph(merged, { depth: "all" })).toEqual(merged);
+  const reversed = await analyzeComparison(
+    root,
+    snapshot(files),
+    snapshot(after),
+    [...configs].reverse(),
+  );
+  expect(mergeGraphs(reversed.base, reversed.target, changes)).toEqual(merged);
 });
 
 it.each([false, true])(
@@ -373,6 +418,11 @@ it("analyzes tree/index/working configs independently and preserves repository s
       expect(graph.target.edges).toEqual([
         { from: "a.ts", to: target === "staged" ? "staged.ts" : "working.ts" },
       ]);
+      const merged = mergeGraphs(graph.base, graph.target, comparison.changes);
+      expect(merged.edges.filter((edge) => edge.status === "deleted")).toHaveLength(1);
+      expect(merged.edges.filter((edge) => edge.status === "added")).toHaveLength(1);
+      // A config-only edit changes edges but these explicitly included files stay unchanged.
+      expect(selectGraph(merged).nodes).toEqual([]);
     } finally {
       await comparison.close();
     }
