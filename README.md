@@ -11,20 +11,15 @@ branch, index, or source files. Both old and new dependencies appear in the same
 Node.js **24 or later** and Git on `PATH`. Supports macOS, Linux, and Windows.
 The CLI is ESM and uses its own TypeScript `^6.0.3` dependency for analysis.
 
-Version `0.1.0` is prepared for distribution; this project has not published it to npm
-as part of the implementation. Install a local tarball from this checkout:
+Install in the project you want to analyze:
 
 ```sh
-pnpm install --frozen-lockfile
-pnpm pack
-# In the project you want to analyze (replace the path):
-pnpm add -D /path/to/tapioca24-ts-graph-0.1.0.tgz
+pnpm add -D @tapioca24/ts-graph
 pnpm exec ts-graph --help
 pnpm exec ts-graph . --format markdown -o graph.md
 ```
 
-After a registry release, installation will also be available with
-`pnpm add -D @tapioca24/ts-graph`. Examples below use `ts-graph` directly;
+Examples below use `ts-graph` directly;
 prefix it with `pnpm exec` when installed locally.
 
 ## Choose a comparison
@@ -222,7 +217,7 @@ on Linux, macOS, and Windows with Node.js 24. Actions are pinned to commit SHAs.
 The benchmark generates 10,000 source files with 20 changes, compares two commits
 at depth 1, and reports three fresh-process runs with timings and peak RSS.
 The advisory target is about 10 seconds and less than 1 GiB; it is not a CI gate.
-See [benchmark methodology](https://github.com/tapioca24/ts-graph/blob/feat/phase-7/docs/benchmark.md)
+See [benchmark methodology](https://github.com/tapioca24/ts-graph/blob/main/docs/benchmark.md)
 for generator reuse, measurement boundaries, and recorded results.
 
 ## Credits and license

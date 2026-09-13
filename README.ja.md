@@ -11,19 +11,14 @@ branch、index、ソースファイルは変更しません。
 **Node.js 24 以上**と `PATH` 上の Git が必要です。macOS、Linux、Windows に対応します。
 ESM の CLI で、解析にはパッケージ自身の TypeScript `^6.0.3` を使います。
 
-`0.1.0` は配布準備段階で、今回の実装作業では npm publish を行っていません。
-この checkout から tarball を作成して導入できます。
+解析するプロジェクトにインストールします。
 
 ```sh
-pnpm install --frozen-lockfile
-pnpm pack
-# 解析するプロジェクトで実行（パスを置き換えてください）:
-pnpm add -D /path/to/tapioca24-ts-graph-0.1.0.tgz
+pnpm add -D @tapioca24/ts-graph
 pnpm exec ts-graph --help
 pnpm exec ts-graph . --format markdown -o graph.md
 ```
 
-registry 公開後は `pnpm add -D @tapioca24/ts-graph` でも導入できます。
 以下では `ts-graph` と記載します。ローカルインストール時は `pnpm exec` を前に付けます。
 
 ## 比較対象の指定
@@ -212,7 +207,7 @@ Actions は commit SHA で固定しています。
 benchmark は 10,000 source files／20 changed files の 2 commit を depth 1 で比較し、
 新規 process で 3 回計測します。目安は約 10 秒、peak RSS 1 GiB 未満で、CI の hard gate にはしません。
 generator の再利用、計測範囲と結果は
-[benchmark 手順](https://github.com/tapioca24/ts-graph/blob/feat/phase-7/docs/benchmark.md) を参照してください。
+[benchmark 手順](https://github.com/tapioca24/ts-graph/blob/main/docs/benchmark.md) を参照してください。
 
 ## 着想とライセンス
 
