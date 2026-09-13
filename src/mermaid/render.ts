@@ -80,7 +80,7 @@ function renderNodes(nodes: DiffNode[], grouped: boolean): string[] {
  */
 export function renderGraph(graph: SelectedGraph, options: RenderOptions = {}): string {
   const { direction = "LR", groupDirectories = true, legend = true, format = "mermaid" } = options;
-  const lines = [initDirective, `flowchart ${direction}`];
+  const lines: string[] = [];
   const nodes = [...graph.nodes].sort((a, b) => comparePaths(a.path, b.path));
   lines.push(...renderNodes(nodes, groupDirectories));
   if (nodes.length === 0) lines.push('  summary_empty["No TypeScript changes"]:::unchanged');
@@ -107,14 +107,24 @@ export function renderGraph(graph: SelectedGraph, options: RenderOptions = {}): 
     styles.push(edgeStyles.renamed);
   }
   if (legend) {
+    // Link the subgraphs themselves so their internal directions are preserved.
+    // Layout-only links follow real edges to keep linkStyle indices unchanged.
+    lines.splice(0, lines.length, ...lines.map((line) => `  ${line}`));
+    lines.unshift('  subgraph graph_dependencies[" "]', `    direction ${direction}`);
     lines.push(
+      "  end",
+      "  style graph_dependencies fill:none,stroke:none",
       '  subgraph legend_status["Legend"]',
+      "    direction LR",
       '    legend_added["Added"]:::added',
       '    legend_modified["Modified"]:::modified',
       '    legend_deleted["Deleted"]:::deleted',
+      "    legend_added ~~~ legend_modified ~~~ legend_deleted",
       "  end",
+      "  graph_dependencies ~~~ legend_status",
     );
   }
+  lines.unshift(initDirective, `flowchart ${legend ? "TB" : direction}`);
   lines.push(...nodeClasses.map((definition) => `  ${definition}`));
   lines.push(...styles.map((style, index) => `  linkStyle ${index} ${style}`));
   const mermaid = `${lines.join("\n")}\n`;

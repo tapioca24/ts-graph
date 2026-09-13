@@ -5,7 +5,7 @@ export const macchiato = {
   overlay0: "#6e738d",
   green: "#a6da95",
   red: "#ed8796",
-  peach: "#f5a97f",
+  yellow: "#eed49f",
   mauve: "#c6a0f6",
 } as const;
 
@@ -37,7 +37,7 @@ export const initDirective = `%%{init: ${JSON.stringify({
 export const nodeClasses = [
   `classDef unchanged fill:${p.surface0},color:${p.text},stroke:${p.overlay0}`,
   `classDef added fill:${p.green},color:${p.base},stroke:${p.green}`,
-  `classDef modified fill:${p.peach},color:${p.base},stroke:${p.peach}`,
+  `classDef modified fill:${p.yellow},color:${p.base},stroke:${p.yellow}`,
   `classDef deleted fill:${p.red},color:${p.base},stroke:${p.red},stroke-dasharray:5 5`,
 ];
 

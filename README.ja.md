@@ -105,7 +105,9 @@ Windows shell の JSON 引用符処理は異なるため、`--edge-label-file` �
 
 矢印は **import するファイルから import されるファイルへ**向きます。型のみの import も含みます。
 同じファイル対の複数 import は 1 本にまとめ、自己参照は除きます。循環依存にも対応します。
-directory subgraph は共通する先頭ディレクトリを畳みます。既定は左から右のレイアウトと小さな凡例です。
+directory subgraph は共通する先頭ディレクトリを畳みます。既定は左から右のレイアウトで、図の下に小さな凡例を配置します。
+グループ間の不可視リンクで上下に配置し、`--direction` は上段の依存関係の図に適用します。
+`--no-legend` では凡例と配置用のグループ・リンクを除去します。
 
 配色は [Catppuccin Macchiato](https://github.com/catppuccin/catppuccin#-palette) です。
 
@@ -113,7 +115,7 @@ directory subgraph は共通する先頭ディレクトリを畳みます。既�
 | ------------------ | ---------------------------------------------- | ---------------------------------------- |
 | 無変更ファイル     | Surface 0 `#363a4f`                            | 両方の解析 snapshot に存在               |
 | 追加ファイル・依存 | Green `#a6da95`                                | target のみに存在                        |
-| 変更ファイル       | Peach `#f5a97f`                                | Git 上の変更あり                         |
+| 変更ファイル       | Yellow `#eed49f`                               | Git 上の変更あり                         |
 | 削除ファイル       | Red `#ed8796`、破線 border                     | base のみに存在                          |
 | 無変更依存         | Overlay 0 `#6e738d`、実線                      | 両 snapshot に存在                       |
 | 削除依存           | Red、破線矢印                                  | base のみに存在                          |

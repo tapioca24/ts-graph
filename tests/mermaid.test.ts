@@ -57,14 +57,15 @@ describe("Mermaid renderer", () => {
     const output = renderGraph(example());
     expect(output).toMatchSnapshot();
     const db = await parseGraph(output);
-    expect(db.getVertices().size).toBe(8);
-    expect(db.getEdges()).toHaveLength(5);
+    expect(db.getVertices().size).toBe(10);
+    expect(db.getEdges()).toHaveLength(8);
     for (const node of example().nodes) {
       expect(db.getVertices().get(stableId("file", node.path))?.classes).toEqual([node.status]);
     }
     expect(
       db
         .getEdges()
+        .slice(0, 5)
         .map((edge) => ({ from: edge.start, to: edge.end, style: edge.style, text: edge.text })),
     ).toEqual([
       {
@@ -198,12 +199,35 @@ describe("Mermaid renderer", () => {
 
   it.each(["LR", "RL", "TB", "BT"] as const)("supports %s direction", async (direction) => {
     const output = renderGraph(example(), { direction });
-    expect(output).toContain(`\nflowchart ${direction}\n`);
+    expect(output).toContain("\nflowchart TB\n");
+    expect(output).toContain(`direction ${direction}`);
     const db = await parseGraph(output);
-    expect(db.getDirection()).toBe(direction);
+    expect(db.getDirection()).toBe("TB");
+    expect(db.getSubGraphs().find((group) => group.id === "graph_dependencies")?.dir).toBe(
+      direction,
+    );
+    const withoutLegend = await parseGraph(renderGraph(example(), { direction, legend: false }));
+    expect(withoutLegend.getDirection()).toBe(direction);
   });
 
-  it("has a removable three-state legend with no synthetic edges", async () => {
+  it("places the legend after the dependency group using only invisible layout links", async () => {
+    for (const graph of [example(), files(), files("a.ts"), files("a.ts", "b.ts")]) {
+      const db = await parseGraph(renderGraph(graph));
+      const actualEdges = graph.edges.length + graph.renames.length;
+      expect(
+        db
+          .getEdges()
+          .slice(actualEdges)
+          .map(({ start, end, stroke }) => ({ start, end, stroke })),
+      ).toEqual([
+        { start: "legend_added", end: "legend_modified", stroke: "invisible" },
+        { start: "legend_modified", end: "legend_deleted", stroke: "invisible" },
+        { start: "graph_dependencies", end: "legend_status", stroke: "invisible" },
+      ]);
+    }
+  });
+
+  it("removes the legend and all layout scaffolding when disabled", async () => {
     const db = await parseGraph(renderGraph(example(), { legend: false }));
     expect([...db.getVertices().keys()].some((id) => id.startsWith("legend_"))).toBe(false);
     expect(db.getEdges()).toHaveLength(5);
@@ -255,7 +279,7 @@ describe("Mermaid renderer", () => {
       overlay0: "#6e738d",
       green: "#a6da95",
       red: "#ed8796",
-      peach: "#f5a97f",
+      yellow: "#eed49f",
       mauve: "#c6a0f6",
     });
     const output = renderGraph(example());

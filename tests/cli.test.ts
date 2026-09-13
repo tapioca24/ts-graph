@@ -94,7 +94,8 @@ it("runs every diff mode without changing dirty working tree, index, branch or H
   ]) {
     const result = await cli(args);
     expect(result.code, result.stderr).toBe(0);
-    expect(result.stdout).toContain("flowchart LR");
+    expect(result.stdout).toContain("flowchart TB");
+    expect(result.stdout).toContain("direction LR");
     expect(result.stdout).toContain('["b.ts"]:::modified');
     expect(result.stdout.includes('["untracked.ts"]:::added')).toBe(
       args.includes("--include-untracked"),

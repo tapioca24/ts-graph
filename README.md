@@ -108,7 +108,9 @@ and a warning on stderr. No implicit exclusion of tests or stories is applied.
 Arrows run from the **importing file to the imported file**. Type-only imports
 count too. Multiple imports between the same files become one arrow; self-edges
 are removed. Cycles are supported. Directory subgraphs collapse common leading
-directories; the default layout is left to right with a small status legend.
+directories; the default layout is left to right with a small status legend below the graph.
+The legend uses invisible layout links between groups; `--direction` controls the dependency
+graph inside the upper group. `--no-legend` removes the legend and its layout groups and links.
 
 The graph uses [Catppuccin Macchiato](https://github.com/catppuccin/catppuccin#-palette):
 
@@ -116,7 +118,7 @@ The graph uses [Catppuccin Macchiato](https://github.com/catppuccin/catppuccin#-
 | ----------------------- | ------------------------------------------------------ | ------------------------------------------------ |
 | Unchanged file          | Surface 0 `#363a4f`                                    | Present in both analyzed snapshots               |
 | Added file / dependency | Green `#a6da95`                                        | Present only in target                           |
-| Modified file           | Peach `#f5a97f`                                        | Modified according to Git                        |
+| Modified file           | Yellow `#eed49f`                                       | Modified according to Git                        |
 | Deleted file            | Red `#ed8796`, dashed border                           | Present only in base                             |
 | Unchanged dependency    | Solid, Overlay 0 `#6e738d`                             | Present in both snapshots                        |
 | Deleted dependency      | Red dashed arrow                                       | Present only in base                             |

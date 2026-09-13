@@ -84,7 +84,8 @@ try {
     consumer,
   );
   assert.match(result.stdout, /^```mermaid\n/);
-  assert.match(result.stdout, /flowchart LR/);
+  assert.match(result.stdout, /flowchart TB/);
+  assert.match(result.stdout, /direction LR/);
   assert.match(result.stdout, /\["b.ts"\]:::modified/);
   assert.match(result.stdout, /Packed dependency/);
   assert.equal(result.stderr, "");
