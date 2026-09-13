@@ -2,22 +2,22 @@
 
 ## 次セッションの目的
 
-[plan.md](./plan.md) に従い、`@tapioca24/ts-graph` の実装と検証を開始する。ユーザーが明示的に変更しない限り、同ファイルを仕様の正として扱うこと。
+[plan.md](./plan.md) に従い、Phase 2 の Git diff specification と snapshot を実装する。ユーザーが明示的に変更しない限り、同ファイルを仕様の正として扱うこと。
 
 ## 現在の状態
 
-- branch は `main`。既存履歴は初期 commit のみ。
-- 元から存在したファイルは、見出しだけの `README.md`。
-- ユーザーとの `grilling` を完了し、合意結果を `plan.md` に記録済み。
-- `plan.md` は `mo` で開いてある。
-- ソースコード、package 構成、依存関係、テスト、CI はまだ未実装。
-- 現在の未追跡ファイルは `plan.md` と、この `HANDOFF.md`。
-- npm publish や Git commit は行っていない。
+- 作業開始前に branch `feat/phase-1` を作成済み。
+- Phase 1 の package／開発ツール、typed error、logger、path normalization、CLI help／option validation を実装済み。
+- 検証結果と実装判断は [phase-1.md](./phase-1.md) に記録済み。unit test 60 件、format、type-aware lint、typecheck、build、ビルド済み CLI の起動確認が成功。
+- `node dist/main.mjs --help`／`--version` が動作する。通常実行は解析未実装の実行時エラー（終了コード 1）になる。
+- CLI の値は `parseOptions` が返す。Git revision の解決や annotation JSON の検証は後続 phase の責務。
+- CI、Git 解析、TypeScript 解析、graph、Mermaid、配布ドキュメントは未実装。
+- Phase 1 の変更は `feat/phase-1` にまとめる。npm publish は行っていない。
 
 ## 参照すべき成果物
 
 - 全仕様、CLI 契約、architecture、実装 phase、test matrix、完了条件: [plan.md](./plan.md)
-- 初期 README: [README.md](./README.md)
+- 初期 README: [README.md](../README.md)
 
 仕様を handoff 内へ再掲しないこと。特に実装前に `plan.md` の次を読むこと。
 
@@ -40,7 +40,7 @@
 ## 実装開始時の進め方
 
 1. `plan.md` を最初から最後まで読む。
-2. Phase 1 から順に進め、各 phase で関連 test を同時に追加する。
+2. Phase 2 から順に進め、各 phase で関連 test を同時に追加する。
 3. 現在の Node.js 24／pnpm 環境を確認してから scaffold する。
 4. library API の詳細は記憶に頼らず、現行の公式 documentation で確認する。
 5. Git snapshot 実装では branch、working tree、index を変更しないことを integration test で継続的に確認する。
