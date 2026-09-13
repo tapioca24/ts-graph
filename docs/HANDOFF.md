@@ -2,16 +2,28 @@
 
 ## 次セッションの目的
 
-[plan.md](./plan.md) の Phase 1–7 を実装済み。Phase 7 の PR は [#7](https://github.com/tapioca24/ts-graph/pull/7)（base: `feat/phase-6`）。3 OS の CI が成功した。ユーザーから依頼された次の作業へ進む。npm publish は別途明示的な依頼があるまで行わない。ユーザーが明示的に変更しない限り、同ファイルを仕様の正として扱うこと。
+[plan.md](./plan.md) の Phase 1–7 は main にマージ済み。初回は `@tapioca24/ts-graph@0.1.0` をローカルから手動公開する方針で合意済み。
+公開準備 PR のマージ後、[手動公開手順](./releasing.md) に従って公開対象の main と CI を確認する。
+npm publish は別途明示的な依頼があるまで行わない。プロダクト仕様は引き続き `plan.md` を正とする。
 
 ## 現在の状態
+
+- Phase 1–7 は main に統合済み。PR [#7](https://github.com/tapioca24/ts-graph/pull/7) の最終 base は main。
+- 調査時の main は `06d09c33f3bb3948129247e9ad5e4b4a7819ec53`。
+  [CI run 34741880004](https://github.com/tapioca24/ts-graph/actions/runs/34741880004) の quality と 3 OS integration が成功。
+- 日英 README は registry からの導入案内へ更新。公開前には registry からの導入はまだできない。
+- 初回公開に公開 workflow、Trusted Publisher、Changesets、semantic-release は追加しない。
+- 公開準備の検証結果と残作業は [npm-release-readiness.md](./npm-release-readiness.md)、実行手順は [releasing.md](./releasing.md) を参照。
+- npm publish は行っていない。公開後は version、dist-tag、公開元 commit、導入確認結果を本書に記録する。
+
+## 実装履歴
 
 - Phase 2 は `feat/phase-1` から作成した branch `feat/phase-2` で実装。
 - Phase 3 は `feat/phase-2` から作成した branch `feat/phase-3` で実装。
 - Phase 4 は `feat/phase-3` から作成した branch `feat/phase-4` で実装。
 - Phase 5 は `feat/phase-4` から作成した branch `feat/phase-5` で実装。
 - Phase 6 は `feat/phase-5` から作成した branch `feat/phase-6` で実装。
-- Phase 7 は `feat/phase-6` から作成した branch `feat/phase-7` で実装。PR の base は `feat/phase-6`。
+- Phase 7 は `feat/phase-6` から作成した branch `feat/phase-7` で実装。PR 作成時の base は `feat/phase-6`。
 - Phase 1 の package／開発ツール、typed error、logger、path normalization、CLI help／option validation を実装済み。
 - 検証結果と実装判断は [phase-1.md](./phase-1.md) に記録済み。unit test 60 件、format、type-aware lint、typecheck、build、ビルド済み CLI の起動確認が成功。
 - `node dist/main.mjs --help`／`--version` と通常の graph 生成が動作する。
@@ -30,7 +42,8 @@
 ## 参照すべき成果物
 
 - 全仕様、CLI 契約、architecture、実装 phase、test matrix、完了条件: [plan.md](./plan.md)
-- 初期 README: [README.md](../README.md)
+- 利用者向け README: [README.md](../README.md)
+- 初回手動公開: [releasing.md](./releasing.md)
 
 仕様を handoff 内へ再掲しないこと。特に実装前に `plan.md` の次を読むこと。
 
