@@ -389,12 +389,12 @@ src/
 
 ### Phase 5: Mermaid renderer
 
-- [ ] 安定 node ID、label escape、directory tree renderer を実装する。
-- [ ] Macchiato の init directive、node class、edge style を実装する。
-- [ ] added／modified／deleted legend と omitted node を実装する。
-- [ ] renamed／added／deleted dependency の link style とラベルを実装する。
-- [ ] raw Mermaid と Markdown renderer を実装する。
-- [ ] Mermaid parser test と deterministic snapshot test を追加する。
+- [x] 安定 node ID、label escape、directory tree renderer を実装する。
+- [x] Macchiato の init directive、node class、edge style を実装する。
+- [x] added／modified／deleted legend と omitted node を実装する。
+- [x] renamed／added／deleted dependency の link style とラベルを実装する。
+- [x] raw Mermaid と Markdown renderer を実装する。
+- [x] Mermaid parser test と deterministic snapshot test を追加する。
 
 ### Phase 6: Edge annotation と CLI 統合
 
