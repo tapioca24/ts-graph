@@ -24,6 +24,10 @@
   "scripts": {
     "build": "tsdown",
     "test": "vitest run",
+    "test:integration": "vitest run tests/git.test.ts tests/typescript.test.ts tests/cli.test.ts",
+    "test:pack": "node scripts/pack-smoke.mjs",
+    "benchmark:generate": "node scripts/benchmark-generate.mjs",
+    "benchmark": "pnpm build && node scripts/benchmark.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint --type-aware --deny-warnings",
     "format": "oxfmt",
@@ -37,6 +41,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.13.3",
+    "ajv": "^8.20.0",
     "jsdom": "^30.0.1",
     "mermaid": "^11.17.2",
     "oxfmt": "^0.66.0",

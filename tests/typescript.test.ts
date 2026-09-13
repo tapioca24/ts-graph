@@ -1,6 +1,6 @@
 import { mkdtemp, mkdir, writeFile, readFile, rm, realpath, symlink } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, normalize } from "node:path";
 import { afterEach, expect, it, vi } from "vitest";
 import ts from "typescript";
 import type { SnapshotReader } from "../src/git/snapshots.js";
@@ -57,7 +57,13 @@ it("matches TypeScript config discovery for parent includes, literal brackets, h
       ["../src/**/d.ts"],
     ]) {
       const args = [join(root, "config"), [".ts"], excludes, includes] as const;
-      expect([...host.readDirectory(...args)].sort()).toEqual(ts.sys.readDirectory(...args).sort());
+      // TypeScript returns slashes on Windows, while the host stores native paths.
+      expect([...host.readDirectory(...args)].map(normalize).sort()).toEqual(
+        ts.sys
+          .readDirectory(...args)
+          .map(normalize)
+          .sort(),
+      );
     }
   }
 });

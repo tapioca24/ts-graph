@@ -9,7 +9,7 @@ import {
   symlink,
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, normalize } from "node:path";
 import { spawn } from "node:child_process";
 import { afterEach, expect, it } from "vitest";
 import { InputError, RuntimeError } from "../src/errors.js";
@@ -214,7 +214,8 @@ it("resolves all revision forms, parents, tags, trees and subdirectory cwd", asy
   const { root, git, first, second } = await repo();
   await mkdir(join(root, "nested"));
   await git.run(["tag", "-a", "v1", "-m", "tag", first]);
-  expect((await findRepository(join(root, "nested"))).root).toBe(root);
+  // Git uses forward slashes on Windows; compare native filesystem paths.
+  expect(normalize((await findRepository(join(root, "nested"))).root)).toBe(normalize(root));
   for (const input of [
     {},
     { target: "HEAD" },

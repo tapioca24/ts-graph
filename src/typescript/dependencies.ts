@@ -9,19 +9,31 @@ import { readProjects } from "./config.js";
 import { collectImports } from "./imports.js";
 
 type Warn = (message: string) => void;
+type Timing = (stage: string, milliseconds: number) => void;
 const supported = (file: string, options: ts.CompilerOptions) =>
   /\.(?:ts|tsx|mts|cts)$/.test(file) ||
   (options.allowJs && /\.(?:js|jsx|mjs|cjs)$/.test(file)) ||
   (options.resolveJsonModule && file.endsWith(".json"));
 
-function analyze(host: SnapshotHost, configs: readonly string[], warn: Warn): SnapshotGraph {
+function analyze(
+  host: SnapshotHost,
+  configs: readonly string[],
+  warn: Warn,
+  timing: Timing = () => {},
+): SnapshotGraph {
   const nodes = new Set<string>();
   const edges = new Map<string, DependencyEdge>();
   const warnings = new Set<string>();
-  for (const project of readProjects(host, configs)) {
+  const configStart = performance.now();
+  const projects = readProjects(host, configs);
+  timing("tsconfig", performance.now() - configStart);
+  for (const project of projects) {
     const options = { ...project.options, noEmit: true };
     const compilerHost = host.compilerHost(options);
+    const programStart = performance.now();
     const program = ts.createProgram({ rootNames: project.fileNames, options, host: compilerHost });
+    timing("Program construction", performance.now() - programStart);
+    const dependenciesStart = performance.now();
     const cache = ts.createModuleResolutionCache(host.root, (file) => file, options);
     const pending = [...program.getSourceFiles()];
     const visited = new Set<string>();
@@ -61,6 +73,7 @@ function analyze(host: SnapshotHost, configs: readonly string[], warn: Warn): Sn
         if (!visited.has(to)) pending.push(dependency);
       }
     }
+    timing("Dependency resolution", performance.now() - dependenciesStart);
   }
   for (const warning of [...warnings].sort()) warn(warning);
   return {
@@ -87,9 +100,12 @@ export async function analyzeComparison(
   target: SnapshotReader,
   configs: readonly string[] = ["tsconfig.json"],
   warn: Warn = () => {},
+  timing: Timing = () => {},
 ) {
+  const hostStart = performance.now();
   const before = await createSnapshotHost(root, base);
   const after = await createSnapshotHost(root, target);
+  timing("Blob reads and snapshot hosts", performance.now() - hostStart);
   const selected = [...new Set(configs.map((file) => resolve(root, file)))].sort();
   for (const config of selected) {
     if (!before.repoPath(config))
@@ -102,11 +118,13 @@ export async function analyzeComparison(
       before,
       selected.filter((file) => before.fileExists(file)),
       warn,
+      (stage, milliseconds) => timing(`Base ${stage}`, milliseconds),
     ),
     target: analyze(
       after,
       selected.filter((file) => after.fileExists(file)),
       warn,
+      (stage, milliseconds) => timing(`Target ${stage}`, milliseconds),
     ),
   };
 }

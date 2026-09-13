@@ -126,10 +126,18 @@ it("supports cwd, subdirectories, render options and deterministic Markdown file
   expect(file.code, file.stderr).toBe(0);
   expect(file.stdout).toBe("");
   expect(file.stderr).toMatch(/Generation total: [\d.]+ ms/);
+  for (const stage of [
+    "Blob reads and snapshot hosts",
+    "Base tsconfig",
+    "Base Program construction",
+    "Target Dependency resolution",
+  ])
+    expect(file.stderr).toContain(`${stage}: `);
   expect(await readFile(join(root, "graph.md"), "utf8")).toBe(result.stdout);
   expect((await readdir(root)).some((name) => name.endsWith(".tmp"))).toBe(false);
 });
 
+// Eight fresh CLI processes plus Git setup need more than 5 seconds on Windows CI.
 it("handles inline/file annotations, escaping, duplicate labels and hidden-edge suggestions", async () => {
   const { root, put, cli } = await fixture();
   const label = { from: "src\\a.ts", to: "./src/b.ts", label: '取得\n<script>"|```' };
@@ -153,7 +161,7 @@ it("handles inline/file annotations, escaping, duplicate labels and hidden-edge 
   }
   await writeFile(join(root, "labels.json"), JSON.stringify(label));
   expect((await cli(["--edge-label-file", "labels.json"])).code).toBe(2);
-});
+}, 30000);
 
 it("keeps warnings on stderr, reports omissions and warns about out-of-project changes", async () => {
   const { put, cli } = await fixture();
