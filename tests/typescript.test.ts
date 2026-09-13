@@ -277,6 +277,12 @@ it("continues through type errors and reports unresolved imports once in determi
 
 it.each([
   { "tsconfig.json": "{ broken" },
+  { "tsconfig.json": "{", "a.ts": "export {};" },
+  {
+    "tsconfig.json": JSON.stringify({ extends: "./base.json" }),
+    "base.json": "{",
+    "a.ts": "export {};",
+  },
   { "tsconfig.json": config({ unknownOption: true }), "a.ts": "" },
   { "tsconfig.json": JSON.stringify({ extends: "./missing.json" }), "a.ts": "" },
   { "tsconfig.json": JSON.stringify({ files: ["missing.ts"] }) },

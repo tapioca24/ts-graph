@@ -5,7 +5,7 @@ it.each([
   { args: ["--help"], code: 0, stdout: "USAGE", stderr: "" },
   { args: ["--version"], code: 0, stdout: "0.1.0\n", stderr: "" },
   { args: ["--unknown"], code: 2, stdout: "", stderr: "Error:" },
-  { args: [], code: 1, stdout: "", stderr: "not implemented yet" },
+  { args: ["--cwd", "/nonexistent-ts-graph-repository"], code: 1, stdout: "", stderr: "Error:" },
 ])("keeps output streams separate for $args", async ({ args, code, stdout, stderr }) => {
   let out = "";
   let err = "";

@@ -398,11 +398,11 @@ src/
 
 ### Phase 6: Edge annotation と CLI 統合
 
-- [ ] inline JSON object／array と JSON file の parser を実装する。
-- [ ] strict schema、重複、存在、候補表示、escape を実装する。
-- [ ] stdout／stderr 分離、atomic output、verbose timing を実装する。
-- [ ] no-change graph と終了コード `0`／`1`／`2` を実装する。
-- [ ] build 後の `ts-graph` を起動する end-to-end test を追加する。
+- [x] inline JSON object／array と JSON file の parser を実装する。
+- [x] strict schema、重複、存在、候補表示、escape を実装する。
+- [x] stdout／stderr 分離、atomic output、verbose timing を実装する。
+- [x] no-change graph と終了コード `0`／`1`／`2` を実装する。
+- [x] build 後の `ts-graph` を起動する end-to-end test を追加する。
 
 ### Phase 7: 配布準備とドキュメント
 

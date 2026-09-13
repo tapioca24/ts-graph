@@ -2,7 +2,7 @@
 
 ## 次セッションの目的
 
-[plan.md](./plan.md) に従い、Phase 6 の Edge annotation と CLI 統合を実装する。ユーザーが明示的に変更しない限り、同ファイルを仕様の正として扱うこと。
+[plan.md](./plan.md) に従い、Phase 7 の配布準備とドキュメントを実装する。ユーザーが明示的に変更しない限り、同ファイルを仕様の正として扱うこと。
 
 ## 現在の状態
 
@@ -10,15 +10,17 @@
 - Phase 3 は `feat/phase-2` から作成した branch `feat/phase-3` で実装。
 - Phase 4 は `feat/phase-3` から作成した branch `feat/phase-4` で実装。
 - Phase 5 は `feat/phase-4` から作成した branch `feat/phase-5` で実装。
+- Phase 6 は `feat/phase-5` から作成した branch `feat/phase-6` で実装。
 - Phase 1 の package／開発ツール、typed error、logger、path normalization、CLI help／option validation を実装済み。
 - 検証結果と実装判断は [phase-1.md](./phase-1.md) に記録済み。unit test 60 件、format、type-aware lint、typecheck、build、ビルド済み CLI の起動確認が成功。
-- `node dist/main.mjs --help`／`--version` が動作する。通常実行は解析未実装の実行時エラー（終了コード 1）になる。
-- CLI の値は `parseOptions` が返す。Git revision の解決は Phase 2 の `openComparison` が担当し、CLI からの呼び出しと annotation JSON の検証は後続 phase で接続する。
+- `node dist/main.mjs --help`／`--version` と通常の graph 生成が動作する。
+- CLI の値は `parseOptions` が返す。`generateGraph` が Git revision 解決、解析、graph 選択、annotation 検証、描画を接続する。
 - Phase 2 の Git diff specification、change parser、tree/index/working snapshot、cat-file batch reader を実装済み。判断と検証結果は [phase-2.md](./phase-2.md) を参照。
 - Phase 3 の snapshot CompilerHost、tsconfig／references、AST 参照抽出、module resolution と snapshot graph を実装済み。判断と検証結果、内部 API は [phase-3.md](./phase-3.md) を参照。118 tests、format、type-aware lint、typecheck、build、CLI help／version が成功。
 - Phase 4 の graph 差分統合、rename relation、双方向 BFS、exclude、無変更ノード上限と省略 summary を実装済み。内部 API と検証結果は [phase-4.md](./phase-4.md) を参照。143 tests、format、type-aware lint、typecheck、build、CLI help／version が成功。
 - Phase 5 の Mermaid renderer、Macchiato theme、directory grouping、label escape、凡例と省略 summary を実装済み。内部 API と検証結果は [phase-5.md](./phase-5.md) を参照。164 tests、format、type-aware lint、typecheck、build、CLI help／version が成功。
-- CI、annotation の入力検証、配布ドキュメントは未実装。Git 基盤、TypeScript 解析、graph 選択と警告、Mermaid renderer の CLI 統合は Phase 6 で行う。
+- Phase 6 の annotation 検証、CLI 統合、atomic output、verbose timing、ビルド済み CLI の E2E を実装済み。193 tests が成功。判断、検証結果と完了条件の照合は [phase-6.md](./phase-6.md) を参照。
+- CI、annotation JSON Schema の配布、配布ドキュメント、pack smoke test、benchmark は Phase 7 で行う。
 - npm publish は行っていない。
 
 ## 参照すべき成果物
@@ -47,7 +49,7 @@
 ## 実装開始時の進め方
 
 1. `plan.md` を最初から最後まで読む。
-2. Phase 6 から順に進め、各 phase で関連 test を同時に追加する。
+2. Phase 7 から進め、関連 test を同時に追加する。
 3. 現在の Node.js 24／pnpm 環境を確認してから scaffold する。
 4. library API の詳細は記憶に頼らず、現行の公式 documentation で確認する。
 5. Git snapshot 実装では branch、working tree、index を変更しないことを integration test で継続的に確認する。
