@@ -371,12 +371,12 @@ src/
 
 ### Phase 3: TypeScript dependency analyzer
 
-- [ ] snapshot 対応の tsconfig parser と project reference traversal を実装する。
-- [ ] custom `CompilerHost` と module resolution host を実装する。
-- [ ] static/type/side-effect import、re-export、dynamic import、require を抽出する。
-- [ ] 内部ソースだけを正規化し、edge を重複排除する。
-- [ ] `paths`、project references、allowJs、resolveJsonModule の fixture test を追加する。
-- [ ] 型エラー継続、unresolved import 警告、壊れた tsconfig の失敗を検証する。
+- [x] snapshot 対応の tsconfig parser と project reference traversal を実装する。
+- [x] custom `CompilerHost` と module resolution host を実装する。
+- [x] static/type/side-effect import、re-export、dynamic import、require を抽出する。
+- [x] 内部ソースだけを正規化し、edge を重複排除する。
+- [x] `paths`、project references、allowJs、resolveJsonModule の fixture test を追加する。
+- [x] 型エラー継続、unresolved import 警告、壊れた tsconfig の失敗を検証する。
 
 ### Phase 4: Diff graph の統合と選択
 
