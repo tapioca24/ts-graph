@@ -79,7 +79,7 @@ function renderNodes(nodes: DiffNode[], grouped: boolean): string[] {
  * input order, locale, and graph cycles do not affect output ordering.
  */
 export function renderGraph(graph: SelectedGraph, options: RenderOptions = {}): string {
-  const { direction = "LR", groupDirectories = true, legend = true, format = "mermaid" } = options;
+  const { direction = "LR", groupDirectories = true, legend = false, format = "mermaid" } = options;
   const lines: string[] = [];
   const nodes = [...graph.nodes].sort((a, b) => comparePaths(a.path, b.path));
   lines.push(...renderNodes(nodes, groupDirectories));

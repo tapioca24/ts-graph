@@ -14,7 +14,7 @@ describe("CLI contract", () => {
       exclude: [],
       direction: "LR",
       groupDirectories: true,
-      legend: true,
+      legend: false,
       edgeLabel: [],
       edgeLabelFile: undefined,
       format: "mermaid",
@@ -25,6 +25,13 @@ describe("CLI contract", () => {
       help: false,
       version: false,
     });
+  });
+
+  it("supports explicit legend visibility and rejects conflicting flags", () => {
+    expect(parseOptions(["--legend"]).legend).toBe(true);
+    expect(parseOptions(["--no-legend"]).legend).toBe(false);
+    expect(() => parseOptions(["--legend", "--no-legend"])).toThrow(InputError);
+    expect(() => parseOptions(["--no-legend", "--legend"])).toThrow(InputError);
   });
 
   it("preserves repeated values, aliases, and negative flags", () => {
@@ -140,7 +147,7 @@ describe("CLI contract", () => {
       "exclude",
       "direction",
       "no-group-directories",
-      "no-legend",
+      "legend",
       "edge-label",
       "edge-label-file",
       "format",
@@ -150,6 +157,7 @@ describe("CLI contract", () => {
       "version",
     ])
       expect(help).toContain(`--${name}`);
+    expect(help).toContain("hidden by default");
     for (const text of ["TARGET", "COMPARE-WITH", "staged", "working", "HEAD^", "repeatable"])
       expect(help).toContain(text);
   });

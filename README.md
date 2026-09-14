@@ -71,7 +71,8 @@ The CLI never fetches automatically.
 | `--exclude <glob>`             | None                 | Repository-relative exclusion glob; repeatable                            |
 | `--direction <LR\|RL\|TB\|BT>` | `LR`                 | Flowchart direction                                                       |
 | `--no-group-directories`       | Grouping enabled     | Use flat repository-relative labels                                       |
-| `--no-legend`                  | Legend enabled       | Hide the change-status legend                                             |
+| `--legend`                     | `false`              | Show the change-status legend                                             |
+| `--no-legend`                  | Legend hidden        | Explicitly hide the legend (retained for compatibility)                   |
 | `--edge-label <json>`          | None                 | Annotation object or array; repeatable                                    |
 | `--edge-label-file <path>`     | None                 | Read an annotation array from a JSON file                                 |
 | `--format <mermaid\|markdown>` | `mermaid`            | Raw Mermaid or a fenced Markdown block                                    |
@@ -86,7 +87,8 @@ ts-graph . --tsconfig packages/app/tsconfig.json --tsconfig packages/lib/tsconfi
 ts-graph . --depth 0
 ts-graph . --depth all --max-nodes all
 ts-graph . --exclude '**/*.test.ts' --exclude 'generated/**'
-ts-graph . --direction TB --no-group-directories --no-legend
+ts-graph . --direction TB --no-group-directories
+ts-graph . --legend
 ts-graph . --format markdown --output graph.md --verbose
 ts-graph --help
 ts-graph --version
@@ -108,9 +110,11 @@ and a warning on stderr. No implicit exclusion of tests or stories is applied.
 Arrows run from the **importing file to the imported file**. Type-only imports
 count too. Multiple imports between the same files become one arrow; self-edges
 are removed. Cycles are supported. Directory subgraphs collapse common leading
-directories; the default layout is left to right with a small status legend below the graph.
-The legend uses invisible layout links between groups; `--direction` controls the dependency
-graph inside the upper group. `--no-legend` removes the legend and its layout groups and links.
+directories; the default layout is left to right with the status legend hidden.
+Use `--legend` to display a small status legend below the graph. When enabled, the legend
+uses invisible layout links between groups; `--direction` controls the dependency graph
+inside the upper group. Without the legend, its layout groups and links are omitted.
+`--no-legend` remains supported to explicitly hide the legend.
 
 The graph uses [Catppuccin Macchiato](https://github.com/catppuccin/catppuccin#-palette):
 
