@@ -72,7 +72,6 @@ The CLI never fetches automatically.
 | `--direction <LR\|RL\|TB\|BT>` | `LR`                 | Flowchart direction                                                       |
 | `--no-group-directories`       | Grouping enabled     | Use flat repository-relative labels                                       |
 | `--legend`                     | `false`              | Show the change-status legend                                             |
-| `--no-legend`                  | —                    | Explicitly hide the change-status legend                                  |
 | `--edge-label <json>`          | None                 | Annotation object or array; repeatable                                    |
 | `--edge-label-file <path>`     | None                 | Read an annotation array from a JSON file                                 |
 | `--format <mermaid\|markdown>` | `mermaid`            | Raw Mermaid or a fenced Markdown block                                    |
@@ -109,10 +108,9 @@ and a warning on stderr. No implicit exclusion of tests or stories is applied.
 Arrows run from the **importing file to the imported file**. Type-only imports
 count too. Multiple imports between the same files become one arrow; self-edges
 are removed. Cycles are supported. Directory subgraphs collapse common leading
-directories; the default layout is left to right and hides the status legend.
-The legend uses invisible layout links between groups; `--direction` controls the dependency
-graph inside the upper group. `--legend` shows the legend; `--no-legend` explicitly hides it and
-removes its layout groups and links.
+directories; the default layout is left to right. The legend uses invisible layout links between
+groups; `--direction` controls the dependency graph inside the upper group. Use `--legend` to show
+the legend and its layout groups and links.
 
 The graph uses [Catppuccin Macchiato](https://github.com/catppuccin/catppuccin#-palette):
 

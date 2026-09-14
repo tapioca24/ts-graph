@@ -72,7 +72,6 @@ const definitions: Record<string, OptionDefinition> = {
     type: "boolean",
     default: false,
     description: "Show status legend",
-    negativeDescription: "Hide status legend",
   },
   "edge-label": {
     type: "string",
@@ -161,6 +160,7 @@ export function parseOptions(rawArgs: string[], cwd = process.cwd()) {
   const seen = new Set<string>();
   for (const token of parsed.tokens) {
     if (token.kind !== "option") continue;
+    if (token.rawName === "--no-legend") throw new InputError("--no-legend is not supported");
     const name = token.name.startsWith("no-") ? token.name.slice(3) : token.name;
     if (seen.has(name) && !definitions[name]?.repeatable)
       throw new InputError(`--${name} may only be specified once`);

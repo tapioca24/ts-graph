@@ -40,7 +40,7 @@ it("documents every declared CLI option in both READMEs and help", async () => {
   if (!args || typeof args !== "object") throw new Error("Expected static CLI arguments");
   for (const [name, definition] of Object.entries(args)) {
     if (definition.type === "positional") continue;
-    const option = `--${["group-directories", "legend"].includes(name) ? "no-" : ""}${name}`;
+    const option = `--${name === "group-directories" ? "no-" : ""}${name}`;
     expect(help).toContain(option);
     for (const readme of readmes) expect(readme).toContain(option);
   }

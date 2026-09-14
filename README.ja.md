@@ -71,7 +71,6 @@ CLI は自動 fetch しません。
 | `--direction <LR\|RL\|TB\|BT>` | `LR`                    | 図の向き                                           |
 | `--no-group-directories`       | grouping 有効           | 階層をなくし repository 相対パスで表示             |
 | `--legend`                     | `false`                 | 変更状態の凡例を表示する                           |
-| `--no-legend`                  | —                       | 変更状態の凡例を明示的に非表示にする               |
 | `--edge-label <json>`          | なし                    | 注釈 object または array。繰り返し可能             |
 | `--edge-label-file <path>`     | なし                    | 注釈配列の JSON ファイル                           |
 | `--format <mermaid\|markdown>` | `mermaid`               | Mermaid 本体または Markdown code block             |
@@ -106,9 +105,9 @@ Windows shell の JSON 引用符処理は異なるため、`--edge-label-file` �
 
 矢印は **import するファイルから import されるファイルへ**向きます。型のみの import も含みます。
 同じファイル対の複数 import は 1 本にまとめ、自己参照は除きます。循環依存にも対応します。
-directory subgraph は共通する先頭ディレクトリを畳みます。既定は左から右のレイアウトで、凡例は表示しません。
+directory subgraph は共通する先頭ディレクトリを畳みます。既定は左から右のレイアウトです。
 グループ間の不可視リンクで上下に配置し、`--direction` は上段の依存関係の図に適用します。
-`--legend` で凡例を表示できます。`--no-legend` では凡例と配置用のグループ・リンクを除去します。
+`--legend` で凡例と配置用のグループ・リンクを表示できます。
 
 配色は [Catppuccin Macchiato](https://github.com/catppuccin/catppuccin#-palette) です。
 

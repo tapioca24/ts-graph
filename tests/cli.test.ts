@@ -107,14 +107,7 @@ it("runs every diff mode without changing dirty working tree, index, branch or H
 
 it("supports cwd, subdirectories, render options and deterministic Markdown file output", async () => {
   const { root, cli } = await fixture();
-  const args = [
-    "--direction",
-    "TB",
-    "--no-legend",
-    "--no-group-directories",
-    "--format",
-    "markdown",
-  ];
+  const args = ["--direction", "TB", "--no-group-directories", "--format", "markdown"];
   const result = await cli([...args, "--cwd", root], join(root, "src"));
   expect(result.code, result.stderr).toBe(0);
   expect(result.stdout).toMatch(/^```mermaid\n/);
