@@ -14,13 +14,13 @@ The CLI is ESM and uses its own TypeScript `^6.0.3` dependency for analysis.
 Install in the project you want to analyze:
 
 ```sh
-pnpm add -D @tapioca24/ts-graph
-pnpm exec ts-graph --help
-pnpm exec ts-graph . --format markdown -o graph.md
+npm install --save-dev @tapioca24/ts-graph
+npx ts-graph --help
+npx ts-graph . --format markdown -o graph.md
 ```
 
 Examples below use `ts-graph` directly;
-prefix it with `pnpm exec` when installed locally.
+prefix it with `npx` when installed locally.
 
 ## Choose a comparison
 

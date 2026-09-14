@@ -14,12 +14,12 @@ ESM の CLI で、解析にはパッケージ自身の TypeScript `^6.0.3` を�
 解析するプロジェクトにインストールします。
 
 ```sh
-pnpm add -D @tapioca24/ts-graph
-pnpm exec ts-graph --help
-pnpm exec ts-graph . --format markdown -o graph.md
+npm install --save-dev @tapioca24/ts-graph
+npx ts-graph --help
+npx ts-graph . --format markdown -o graph.md
 ```
 
-以下では `ts-graph` と記載します。ローカルインストール時は `pnpm exec` を前に付けます。
+以下では `ts-graph` と記載します。ローカルインストール時は `npx` を前に付けます。
 
 ## 比較対象の指定
 
