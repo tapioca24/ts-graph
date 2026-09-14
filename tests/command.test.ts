@@ -14,7 +14,7 @@ describe("CLI contract", () => {
       exclude: [],
       direction: "LR",
       groupDirectories: true,
-      legend: true,
+      legend: false,
       edgeLabel: [],
       edgeLabelFile: undefined,
       format: "mermaid",
@@ -76,6 +76,8 @@ describe("CLI contract", () => {
       edgeLabelFile: "labels.json",
       cwd: "project",
     });
+
+    expect(parseOptions(["--legend"]).legend).toBe(true);
   });
 
   it.each([

@@ -70,7 +70,7 @@ const definitions: Record<string, OptionDefinition> = {
   },
   legend: {
     type: "boolean",
-    default: true,
+    default: false,
     description: "Show status legend",
     negativeDescription: "Hide status legend",
   },

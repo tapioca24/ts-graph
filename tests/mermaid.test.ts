@@ -53,8 +53,13 @@ async function parseGraph(source: string): Promise<FlowDB> {
 }
 
 describe("Mermaid renderer", () => {
+  it("hides the legend by default", () => {
+    expect(renderGraph(example())).not.toContain('subgraph legend_status["Legend"]');
+    expect(renderGraph(example())).toContain("flowchart LR");
+  });
+
   it("renders a deterministic snapshot with all statuses, a cycle, rename and omission", async () => {
-    const output = renderGraph(example());
+    const output = renderGraph(example(), { legend: true });
     expect(output).toMatchSnapshot();
     const db = await parseGraph(output);
     expect(db.getVertices().size).toBe(10);
@@ -198,7 +203,7 @@ describe("Mermaid renderer", () => {
   });
 
   it.each(["LR", "RL", "TB", "BT"] as const)("supports %s direction", async (direction) => {
-    const output = renderGraph(example(), { direction });
+    const output = renderGraph(example(), { direction, legend: true });
     expect(output).toContain("\nflowchart TB\n");
     expect(output).toContain(`direction ${direction}`);
     const db = await parseGraph(output);
@@ -212,7 +217,7 @@ describe("Mermaid renderer", () => {
 
   it("places the legend after the dependency group using only invisible layout links", async () => {
     for (const graph of [example(), files(), files("a.ts"), files("a.ts", "b.ts")]) {
-      const db = await parseGraph(renderGraph(graph));
+      const db = await parseGraph(renderGraph(graph, { legend: true }));
       const actualEdges = graph.edges.length + graph.renames.length;
       expect(
         db
