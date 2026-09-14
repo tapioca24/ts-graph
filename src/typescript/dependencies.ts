@@ -8,7 +8,7 @@ import type { SnapshotHost } from "./compiler-host.js";
 import { readProjects } from "./config.js";
 import { collectImports } from "./imports.js";
 
-type Warn = (message: string) => void;
+type Diagnostic = (message: string) => void;
 type Timing = (stage: string, milliseconds: number) => void;
 const supported = (file: string, options: ts.CompilerOptions) =>
   /\.(?:ts|tsx|mts|cts)$/.test(file) ||
@@ -18,12 +18,12 @@ const supported = (file: string, options: ts.CompilerOptions) =>
 function analyze(
   host: SnapshotHost,
   configs: readonly string[],
-  warn: Warn,
+  diagnostic: Diagnostic,
   timing: Timing = () => {},
 ): SnapshotGraph {
   const nodes = new Set<string>();
   const edges = new Map<string, DependencyEdge>();
-  const warnings = new Set<string>();
+  const diagnostics = new Set<string>();
   const configStart = performance.now();
   const projects = readProjects(host, configs);
   timing("tsconfig", performance.now() - configStart);
@@ -54,8 +54,8 @@ function analyze(
           program.getModeForUsageLocation(source, usage),
         ).resolvedModule;
         if (!resolved) {
-          warnings.add(
-            `Unresolved import ${JSON.stringify(usage.text)} in ${JSON.stringify(from)}`,
+          diagnostics.add(
+            `Skipped unresolved import ${JSON.stringify(usage.text)} in ${JSON.stringify(from)}`,
           );
           continue;
         }
@@ -75,7 +75,7 @@ function analyze(
     }
     timing("Dependency resolution", performance.now() - dependenciesStart);
   }
-  for (const warning of [...warnings].sort()) warn(warning);
+  for (const message of [...diagnostics].sort()) diagnostic(message);
   return {
     nodes: [...nodes].sort().map((path) => ({ path })),
     edges: [...edges.entries()]
@@ -88,9 +88,9 @@ export async function analyzeSnapshot(
   root: string,
   snapshot: SnapshotReader,
   configs: readonly string[] = ["tsconfig.json"],
-  warn: Warn = () => {},
+  diagnostic: Diagnostic = () => {},
 ): Promise<SnapshotGraph> {
-  return analyze(await createSnapshotHost(root, snapshot), configs, warn);
+  return analyze(await createSnapshotHost(root, snapshot), configs, diagnostic);
 }
 
 /** A selected config may be absent on one side, but never on both sides. */
@@ -99,7 +99,7 @@ export async function analyzeComparison(
   base: SnapshotReader,
   target: SnapshotReader,
   configs: readonly string[] = ["tsconfig.json"],
-  warn: Warn = () => {},
+  diagnostic: Diagnostic = () => {},
   timing: Timing = () => {},
 ) {
   const hostStart = performance.now();
@@ -117,13 +117,13 @@ export async function analyzeComparison(
     base: analyze(
       before,
       selected.filter((file) => before.fileExists(file)),
-      warn,
+      diagnostic,
       (stage, milliseconds) => timing(`Base ${stage}`, milliseconds),
     ),
     target: analyze(
       after,
       selected.filter((file) => after.fileExists(file)),
-      warn,
+      diagnostic,
       (stage, milliseconds) => timing(`Target ${stage}`, milliseconds),
     ),
   };

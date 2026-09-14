@@ -169,7 +169,10 @@ help と version は要求されたテキストを出力します。
 | `1`        | Git・filesystem・tsconfig などの実行時エラー             |
 | `2`        | CLI 引数または注釈の入力エラー                           |
 
-解決できない import は警告し、そのエッジだけを省きます。通常の型エラーでは解析を止めません。
+解決できない import は、そのエッジだけを省き、デフォルトでは通知しません。
+`--verbose` 時のみ、Node.js 標準モジュールも含めてスキップした import を stderr に出力します。
+例: `Skipped unresolved import "node:child_process" in "src/git/cat-file.ts"`。
+通常の型エラーでは解析を止めません。
 tsconfig の構文エラーや project を構築できない状態は失敗します。
 変更した TypeScript ファイルが選択 project の対象外なら警告します。
 

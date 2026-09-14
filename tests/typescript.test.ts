@@ -263,7 +263,7 @@ it.each([false, true])(
   },
 );
 
-it("continues through type errors and reports unresolved imports once in deterministic order", async () => {
+it("continues through type errors and reports skipped unresolved imports once in deterministic order", async () => {
   const { root, put } = await fixture();
   await put("ghost.ts", "export {};");
   const warnings: string[] = [];
@@ -278,7 +278,7 @@ it("continues through type errors and reports unresolved imports once in determi
     (warning) => warnings.push(warning),
   );
   expect(graph.edges).toEqual([{ from: "a.ts", to: "b.ts" }]);
-  expect(warnings).toEqual(['Unresolved import "./ghost" in "a.ts"']);
+  expect(warnings).toEqual(['Skipped unresolved import "./ghost" in "a.ts"']);
 });
 
 it.each([
