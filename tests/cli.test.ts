@@ -164,17 +164,44 @@ it("handles inline/file annotations, escaping, duplicate labels and hidden-edge 
   expect((await cli(["--edge-label-file", "labels.json"])).code).toBe(2);
 }, 30000);
 
+it("reports skipped unresolved imports only with verbose without changing the graph", async () => {
+  const { put, cli } = await fixture();
+  const imports = [
+    "node:child_process",
+    "fs",
+    "fs/promises",
+    "node:not-a-real-module",
+    "missing-package",
+    "./missing",
+  ];
+  await put(
+    "src/b.ts",
+    imports.map((name) => `import ${JSON.stringify(name)};`).join("\n") +
+      '\nimport "./c"; export const b = 3;\n',
+  );
+  const normal = await cli(["."]);
+  const verbose = await cli([".", "--verbose"]);
+  expect(normal.code, normal.stderr).toBe(0);
+  expect(verbose.code, verbose.stderr).toBe(0);
+  expect(normal.stderr).toBe("");
+  expect(verbose.stdout).toBe(normal.stdout);
+  expect(verbose.stdout).not.toContain("Skipped unresolved import");
+  for (const name of imports)
+    expect(verbose.stderr).toContain(`Skipped unresolved import "${name}" in "src/b.ts"`);
+  expect(verbose.stderr).not.toContain("Warning:");
+});
+
 it("keeps warnings on stderr, reports omissions and warns about out-of-project changes", async () => {
   const { put, cli } = await fixture();
   await put("src/b.ts", 'import "./c"; import "./missing"; export const b = 3;\n');
   await put("outside.ts", "export const outside = 1;\n");
   const result = await cli([".", "--include-untracked", "--max-nodes", "1", "--verbose"]);
   expect(result.code, result.stderr).toBe(0);
-  expect(result.stderr).toContain("Unresolved import");
+  expect(result.stderr).toContain("Skipped unresolved import");
   expect(result.stderr).toContain("outside analyzed tsconfig");
   expect(result.stderr).toContain("1 related files omitted");
   expect(result.stdout).toContain("1 related files omitted");
-  expect(result.stdout).not.toMatch(/Warning:|Unresolved import| ms/);
+  expect(result.stdout).not.toMatch(/Warning:|Skipped unresolved import| ms/);
 });
 
 it("returns 0 for no changes, 2 for invalid inputs and 1 for runtime failures without overwriting output", async () => {

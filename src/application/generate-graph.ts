@@ -40,7 +40,7 @@ export async function generateGraph(
       comparison.base,
       comparison.target,
       options.tsconfig.length ? options.tsconfig : undefined,
-      warn,
+      (message) => logger.debug(message),
       (stage, milliseconds) => logger.debug(`${stage}: ${milliseconds.toFixed(1)} ms`),
     );
     timing("TypeScript analysis");

@@ -172,8 +172,10 @@ replaced by rename where supported. Help and version print their requested text.
 | `1`       | Git, filesystem, or tsconfig runtime error               |
 | `2`       | Invalid CLI input or annotation                          |
 
-Unresolved imports produce warnings and omit those edges. Ordinary TypeScript
-type errors do not stop analysis. Invalid tsconfig syntax or an unbuildable project
+Unresolved imports omit those edges silently by default. With `--verbose`, skipped
+imports (including Node.js built-ins) are reported on stderr, for example:
+`Skipped unresolved import "node:child_process" in "src/git/cat-file.ts"`.
+Ordinary TypeScript type errors do not stop analysis. Invalid tsconfig syntax or an unbuildable project
 fails. Changed TypeScript files outside the selected projects produce warnings.
 
 ## Analysis and limitations
