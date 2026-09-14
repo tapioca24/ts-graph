@@ -70,8 +70,8 @@ const definitions: Record<string, OptionDefinition> = {
   },
   legend: {
     type: "boolean",
-    default: true,
-    description: "Show status legend",
+    default: false,
+    description: "Show status legend (hidden by default)",
     negativeDescription: "Hide status legend",
   },
   "edge-label": {

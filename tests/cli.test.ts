@@ -94,8 +94,9 @@ it("runs every diff mode without changing dirty working tree, index, branch or H
   ]) {
     const result = await cli(args);
     expect(result.code, result.stderr).toBe(0);
-    expect(result.stdout).toContain("flowchart TB");
-    expect(result.stdout).toContain("direction LR");
+    expect(result.stdout).toContain("flowchart LR");
+    expect(result.stdout).not.toContain("legend_status");
+    expect(result.stdout).not.toContain("graph_dependencies");
     expect(result.stdout).toContain('["b.ts"]:::modified');
     expect(result.stdout.includes('["untracked.ts"]:::added')).toBe(
       args.includes("--include-untracked"),
@@ -104,6 +105,18 @@ it("runs every diff mode without changing dirty working tree, index, branch or H
     expect(await state()).toEqual(before);
   }
 }, 30000);
+
+it("shows the legend only when explicitly enabled", async () => {
+  const { cli } = await fixture();
+  const shown = await cli(["--legend"]);
+  expect(shown.code, shown.stderr).toBe(0);
+  expect(shown.stdout).toContain('subgraph legend_status["Legend"]');
+  expect(shown.stdout).toContain("graph_dependencies ~~~ legend_status");
+  const hidden = await cli(["--no-legend"]);
+  expect(hidden.code, hidden.stderr).toBe(0);
+  expect(hidden.stdout).not.toContain("legend_status");
+  expect(hidden.stdout).not.toContain("graph_dependencies");
+});
 
 it("supports cwd, subdirectories, render options and deterministic Markdown file output", async () => {
   const { root, cli } = await fixture();

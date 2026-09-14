@@ -57,8 +57,8 @@ describe("Mermaid renderer", () => {
     const output = renderGraph(example());
     expect(output).toMatchSnapshot();
     const db = await parseGraph(output);
-    expect(db.getVertices().size).toBe(10);
-    expect(db.getEdges()).toHaveLength(8);
+    expect(db.getVertices().size).toBe(5);
+    expect(db.getEdges()).toHaveLength(5);
     for (const node of example().nodes) {
       expect(db.getVertices().get(stableId("file", node.path))?.classes).toEqual([node.status]);
     }
@@ -198,7 +198,7 @@ describe("Mermaid renderer", () => {
   });
 
   it.each(["LR", "RL", "TB", "BT"] as const)("supports %s direction", async (direction) => {
-    const output = renderGraph(example(), { direction });
+    const output = renderGraph(example(), { direction, legend: true });
     expect(output).toContain("\nflowchart TB\n");
     expect(output).toContain(`direction ${direction}`);
     const db = await parseGraph(output);
@@ -206,13 +206,13 @@ describe("Mermaid renderer", () => {
     expect(db.getSubGraphs().find((group) => group.id === "graph_dependencies")?.dir).toBe(
       direction,
     );
-    const withoutLegend = await parseGraph(renderGraph(example(), { direction, legend: false }));
+    const withoutLegend = await parseGraph(renderGraph(example(), { direction }));
     expect(withoutLegend.getDirection()).toBe(direction);
   });
 
   it("places the legend after the dependency group using only invisible layout links", async () => {
     for (const graph of [example(), files(), files("a.ts"), files("a.ts", "b.ts")]) {
-      const db = await parseGraph(renderGraph(graph));
+      const db = await parseGraph(renderGraph(graph, { legend: true }));
       const actualEdges = graph.edges.length + graph.renames.length;
       expect(
         db
@@ -227,8 +227,12 @@ describe("Mermaid renderer", () => {
     }
   });
 
-  it("removes the legend and all layout scaffolding when disabled", async () => {
-    const db = await parseGraph(renderGraph(example(), { legend: false }));
+  it("omits the legend and all layout scaffolding by default", async () => {
+    const output = renderGraph(example());
+    expect(output).toBe(renderGraph(example(), { legend: false }));
+    expect(output).not.toContain("graph_dependencies");
+    expect(output).not.toContain("legend_status");
+    const db = await parseGraph(output);
     expect([...db.getVertices().keys()].some((id) => id.startsWith("legend_"))).toBe(false);
     expect(db.getEdges()).toHaveLength(5);
   });

@@ -70,7 +70,8 @@ CLI は自動 fetch しません。
 | `--exclude <glob>`             | なし                    | repository root 相対の除外 glob。繰り返し可能      |
 | `--direction <LR\|RL\|TB\|BT>` | `LR`                    | 図の向き                                           |
 | `--no-group-directories`       | grouping 有効           | 階層をなくし repository 相対パスで表示             |
-| `--no-legend`                  | 凡例有効                | 変更状態の凡例を非表示にする                       |
+| `--legend`                     | `false`                 | 変更状態の凡例を表示する                           |
+| `--no-legend`                  | 凡例非表示              | 明示的に凡例を非表示にする（互換性のため維持）     |
 | `--edge-label <json>`          | なし                    | 注釈 object または array。繰り返し可能             |
 | `--edge-label-file <path>`     | なし                    | 注釈配列の JSON ファイル                           |
 | `--format <mermaid\|markdown>` | `mermaid`               | Mermaid 本体または Markdown code block             |
@@ -85,7 +86,8 @@ ts-graph . --tsconfig packages/app/tsconfig.json --tsconfig packages/lib/tsconfi
 ts-graph . --depth 0
 ts-graph . --depth all --max-nodes all
 ts-graph . --exclude '**/*.test.ts' --exclude 'generated/**'
-ts-graph . --direction TB --no-group-directories --no-legend
+ts-graph . --direction TB --no-group-directories
+ts-graph . --legend
 ts-graph . --format markdown --output graph.md --verbose
 ts-graph --help
 ts-graph --version
@@ -105,9 +107,10 @@ Windows shell の JSON 引用符処理は異なるため、`--edge-label-file` �
 
 矢印は **import するファイルから import されるファイルへ**向きます。型のみの import も含みます。
 同じファイル対の複数 import は 1 本にまとめ、自己参照は除きます。循環依存にも対応します。
-directory subgraph は共通する先頭ディレクトリを畳みます。既定は左から右のレイアウトで、図の下に小さな凡例を配置します。
-グループ間の不可視リンクで上下に配置し、`--direction` は上段の依存関係の図に適用します。
-`--no-legend` では凡例と配置用のグループ・リンクを除去します。
+directory subgraph は共通する先頭ディレクトリを畳みます。既定は左から右のレイアウトで、凡例は非表示です。
+`--legend` を指定すると図の下に小さな凡例を配置します。有効時はグループ間の不可視リンクで上下に配置し、
+`--direction` は上段の依存関係の図に適用します。凡例が非表示の場合、配置用のグループ・リンクも出力しません。
+互換性のため `--no-legend` も引き続き使用でき、明示的に凡例を非表示にします。
 
 配色は [Catppuccin Macchiato](https://github.com/catppuccin/catppuccin#-palette) です。
 
